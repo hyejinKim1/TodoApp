@@ -24,18 +24,14 @@ export default function App() {
     }
   ]);
 
-  const nextId = useRef(2);
-
   const onInsert = (text) => {
     setTodos(
       todos.concat({
-        id: nextId.current + 1,
+        id: todos.length + 1,
         text,
         checked: false
       })
     );
-
-    nextId.current++;
   }
 
   const onToggle = (id) => {
@@ -47,9 +43,15 @@ export default function App() {
   }
 
   const onDelete = (id) => {
-    setTodos(
-      todos.filter((todo) => todo.id!== id)
-    )
+    let cnt = 0;
+    let newTodos = [];
+    todos.map((todo) => {
+      if(todo.id !== id){
+        cnt++;
+        newTodos.push({id: cnt, text: todo.text, checked: todo.checked});
+      }
+    })
+    setTodos(newTodos);
   }
 
   return (
